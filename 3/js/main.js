@@ -1,51 +1,38 @@
 function getRandom(min, max) {
   if (min > max || min < 0 || max < 0) {
-    return new Error('Неверный диапазон');
+    throw new Error('Неверный диапазон');
   } else {
     return Math.floor(Math.random() * (max + 1 - min) + min);
   }
 }
+//https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 
 function stringLength(str, maxLength) {
   return str.length <= maxLength;
 }
 
+//https://stackoverflow.com/
+
 getRandom(4, 15);
 stringLength('qwerty', 5);
 
-//взято с сайта https://stackoverflow.com/ and
-//https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-
-const id = [];
-const idForPic = [];
+const ids = [];
+const idForPics = [];
 
 for (let i = 0; i < 25; i++) {
-  id[i] = i;
-  idForPic[i] = i;
+  ids[i] = i;
+  idForPics[i] = i;
 }
 
-function getId() {
-  const r = getRandom(0, id.length);
-  let ans = 0;
-  if (id.indexOf(r) !== -1 && id.length !== 0) {
-    ans = id[r];
-    id.splice(id.indexOf(r));
-    return ans;
-  } else {
-    return new Error('ID закончились');
+function getArr(arr) {
+  if (arr.length === 0) {
+    throw new Error('ID закончились');
   }
-}
-
-function getIdForPic() {
-  const r = getRandom(0, idForPic.length);
+  const r = getRandom(0, arr.length - 1);
   let ans = 0;
-  if (idForPic.indexOf(r) !== -1 && idForPic.length !== 0) {
-    ans = idForPic[r];
-    idForPic.splice(idForPic.indexOf(r));
-    return ans;
-  } else {
-    return new Error('ID закончились');
-  }
+  ans = arr[r];
+  arr.splice(arr.indexOf(r), 1);
+  return ans;
 }
 
 function getLikes() {
@@ -53,7 +40,7 @@ function getLikes() {
 }
 
 function getUrl() {
-  const idPic = getIdForPic;
+  const idPic = getArr(idForPics);
   return `photos/${idPic}.jpg`;
 }
 
@@ -70,11 +57,11 @@ const NAMES = [
   'Мария',
   'Стася',
   'Станислава',
-  'Мэй'
+  'Мэй',
 ];
 
 function getRandomName() {
-  return NAMES[getRandom(0, 13)];
+  return NAMES[getRandom(0, NAMES.length - 1)];
 }
 
 const MESSAGES= [
@@ -88,13 +75,11 @@ const MESSAGES= [
 
 function getRandomComment() {
   if (getRandom(0, 2) === 1) {
-    const arr= [
-      MESSAGES[getRandom(0, 6)],
-      MESSAGES[getRandom(0, 6)],
-    ];
-    return arr;
+    const commentOne = MESSAGES[getRandom(0, MESSAGES.length - 1)];
+    const commentTwo = MESSAGES[getRandom(0, MESSAGES.length - 1)];
+    return `${commentOne  } ${  commentTwo}`;
   } else {
-    return MESSAGES[getRandom(0, 6)];
+    return MESSAGES[getRandom(0, MESSAGES.length - 1)];
   }
 }
 
@@ -111,17 +96,17 @@ const DESCRIPTIONS = [
 ];
 
 function getRandomDes() {
-  return DESCRIPTIONS[getRandom(0, 9)];
+  return DESCRIPTIONS[getRandom(0, DESCRIPTIONS.length - 1)];
 }
 
 const newPost = () => ({
-  id: getId,
-  url: getUrl,
-  description: getRandomDes,
-  likes: getLikes,
-  comments: getRandomComment,
+  id: getArr(ids),
+  url: getUrl(),
+  description: getRandomDes(),
+  likes: getLikes(),
+  comments: getRandomComment(),
   avatar: `img/avatar-${getRandom(1, 6)}.svg`,
-  name: getRandomName,
+  name: getRandomName(),
 });
 
 const posts = Array.from({length: 25}, newPost);
