@@ -113,5 +113,3 @@ const posts = Array.from({length: 25}, newPost);
 
 // eslint-disable-next-line no-console
 console.log(posts);
-
-
