@@ -3,10 +3,12 @@ import {getRandom} from './util.js';
 const ids = [];
 const idForPics = [];
 
+
 for (let i = 0; i < 25; i++) {
   ids[i] = i;
   idForPics[i] = i;
 }
+
 
 function getArr(arr) {
   if (arr.length === 0) {
@@ -83,6 +85,15 @@ function getRandomDes() {
   return DESCRIPTIONS[getRandom(0, DESCRIPTIONS.length - 1)];
 }
 
+
+function createID() {
+  for (let i = 0; i < 25; i++) {
+    ids[i] = i;
+    idForPics[i] = i;
+  }
+}
+
+
 const newPost = () => ({
   id: getArr(ids),
   url: getUrl(),
@@ -93,7 +104,16 @@ const newPost = () => ({
   name: getRandomName(),
 });
 
+
 const posts = Array.from({length: 25}, newPost);
+
+export function createPost() {
+  createID();
+  const y = [];
+  y.push(newPost());
+  return y;
+}
+
 
 // eslint-disable-next-line no-console
 console.log(posts);
