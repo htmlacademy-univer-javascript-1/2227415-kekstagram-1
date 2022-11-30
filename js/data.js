@@ -95,5 +95,15 @@ const newPost = () => ({
 
 const posts = Array.from({length: 25}, newPost);
 
+export function createPost() {
+  for (let i = 0; i < 25; i++) {
+    ids[i] = i;
+    idForPics[i] = i;
+  }
+  const ca = [];
+  ca.push(newPost());
+  return ca;
+}
+
 // eslint-disable-next-line no-console
 console.log(posts);
