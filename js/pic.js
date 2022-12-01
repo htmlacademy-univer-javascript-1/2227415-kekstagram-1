@@ -1,5 +1,6 @@
 import {createPost} from './data.js';
 
+
 //Ищем шаблон по id
 const photosTemplate = document.querySelector('#picture').content;
 //Контейнер фото других пользователей
