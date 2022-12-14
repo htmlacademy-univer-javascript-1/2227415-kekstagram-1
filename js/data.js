@@ -1,109 +1,72 @@
 import {getRandom} from './util.js';
 
-const ids = [];
-const idForPics = [];
+const ID = [];
+let idComment = getRandom(1, 250);
 
-for (let i = 0; i < 25; i++) {
-  ids[i] = i;
-  idForPics[i] = i;
-}
-
-function getArr(arr) {
-  if (arr.length === 0) {
-    throw new Error('ID закончились');
-  }
-  const r = getRandom(0, arr.length - 1);
-  let ans = 0;
-  ans = arr[r];
-  arr.splice(arr.indexOf(r), 1);
-  return ans;
-}
-
-function getLikes() {
-  return getRandom(15, 201);
-}
-
-function getUrl() {
-  const idPic = getArr(idForPics);
-  return `photos/${idPic}.jpg`;
-}
+const getRandomEl = (elements) => elements[getRandom(0, elements.length - 1)];
 
 const NAMES = [
-  'Сергей',
-  'Андрей',
-  'Даниил',
-  'Владислав',
-  'Егор',
-  'Артас',
+  'Стася',
   'Виталий',
   'Никита',
-  'Гермиона',
-  'Мария',
-  'Стася',
-  'Станислава',
-  'Мэй',
+  'Сергей',
+  'Олег Вещий',
+  'Артас',
+  'Татьяна Буланова',
+  'Ирчик',
+  'Алексей',
+  'Константин',
+  'Кирилллллл',
+  'Анна',
 ];
 
-function getRandomName() {
-  return NAMES[getRandom(0, NAMES.length - 1)];
-}
-
-const MESSAGES= [
+const MESSAGES = [
   'Всё отлично!',
-  'В целом всё неплохо. Но не всё.',
+  'В целом всё неплохо. А если плохо....',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
-  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
+  'Кто я?',
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
+  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-function getRandomComment() {
-  if (getRandom(0, 2) === 1) {
-    const commentOne = MESSAGES[getRandom(0, MESSAGES.length - 1)];
-    const commentTwo = MESSAGES[getRandom(0, MESSAGES.length - 1)];
-    return `${commentOne  } ${  commentTwo}`;
-  } else {
-    return MESSAGES[getRandom(0, MESSAGES.length - 1)];
+const message = (count) => {
+  const fullMessage = [];
+  for (let i = 1; i <= count; i++) {
+    fullMessage.push (getRandomEl(MESSAGES));
   }
-}
+  return fullMessage.join(' ');
+};
 
-const DESCRIPTIONS = [
-  'В метро',
-  'На парах',
-  'Кексы - это святое',
-  'Куда я жмал?!',
-  'Интересно, а что на обед?',
-  'Красивый вид',
-  'На расслабоне, на чиле',
-  'Денчик слазиет',
-  'Меланхолично однако',
-];
-
-function getRandomDes() {
-  return DESCRIPTIONS[getRandom(0, DESCRIPTIONS.length - 1)];
-}
-
-const newPost = () => ({
-  id: getArr(ids),
-  url: getUrl(),
-  description: getRandomDes(),
-  likes: getLikes(),
-  comments: getRandomComment(),
+const oneComment = (id) => ({
+  id,
   avatar: `img/avatar-${getRandom(1, 6)}.svg`,
-  name: getRandomName(),
+  message: message(getRandom(1, 2)),
+  name: getRandomEl(NAMES),
 });
 
-const posts = Array.from({length: 25}, newPost);
+const createComments = (count) => {
+  const comments = [];
 
-export function createPost() {
-  for (let i = 0; i < 25; i++) {
-    ids[i] = i;
-    idForPics[i] = i;
+  for (let i = 1; i <= count; i++) {
+    while (ID.includes(idComment)) {idComment = getRandom(1, 250);}
+    ID.push (idComment);
+    comments.push(oneComment(idComment));
   }
-  const ca = [];
-  ca.push(newPost());
-  return ca;
-}
+  return comments;
+};
 
-// eslint-disable-next-line no-console
-console.log(posts);
+const onePost = (id) => ({
+  id,
+  url: `photos/${id}.jpg`, //добавляем картинку
+  description: `Описание фотографии ${id}`, //добавляем описание
+  likes: getRandom (15, 200), //добавляем количество лайков
+  comments: createComments(getRandom(1, 10)), //добавляем комментарии, каждый комментарий содержит имя, аватарку, и текст комментария
+});
+
+const createPost = (count) => {
+  const pictures = [];
+  for (let i = 1; i <= count; i++) {pictures.push(onePost(i));}
+  return pictures;
+};
+
+export {createPost};
