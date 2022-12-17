@@ -12,7 +12,6 @@ const body = document.querySelector('body');
 const uploadImage = () => {
   const file = upFile.files[0];
   const fileName = file.name.toLowerCase();
-
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
   if (matches) {
     imgPreview.src = URL.createObjectURL(file);

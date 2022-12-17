@@ -5,8 +5,8 @@ import {getRandomElements} from './util.js';
 const RANDOM_QUANTITY = 10;
 const TIME_OUT_DELAY = 500;
 const filters = document.querySelector('.img-filters');
-const filterDefault = document.querySelector('#filter-default');
 const filterRandom = document.querySelector('#filter-random');
+const filterDefault = document.querySelector('#filter-default');
 const filterDiscussed = document.querySelector('#filter-discussed');
 
 
