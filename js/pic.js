@@ -4,6 +4,7 @@ import {renderBigPic} from './bigPic.js';
 const picContent = document.querySelector('#picture').content.querySelector('.picture');
 const picsList = document.querySelector('.pictures');
 
+
 export const postImg = createPost(25);
 
 const renderPhoto = (ph) => {
@@ -30,4 +31,4 @@ export const renderPhotos = (pictures) => { //Рендеринг всех фот
   picsList.appendChild(photoListFragment);
 };
 
-
+export {postImg, renderPhotos};
