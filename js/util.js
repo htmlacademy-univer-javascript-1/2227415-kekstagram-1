@@ -101,4 +101,16 @@ const EFFECTS = {
   },
 };
 
-export{getRandom, showAlert, EFFECTS};
+const getRandomElements = (arr) => {
+  const newArray = arr.slice();
+  const elements = [];
+  const newArrayLength = arr.length;
+  for (let i = 0; i < newArrayLength; i++) {
+    const randomId = getRandom(0, newArray.length- 1);
+    elements.push(newArray[randomId]);
+    newArray.splice(randomId, 1);
+  }
+  return elements;
+};
+
+export{getRandom, showAlert, EFFECTS, getRandomElements};
