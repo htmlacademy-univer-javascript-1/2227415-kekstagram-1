@@ -1,14 +1,5 @@
-import {reset} from './effects.js';
-import {defaultSet} from './effects.js';
-
-const imgReduction = document.querySelector('.scale__control--smaller');
-const uploadOverlay = document.querySelector('.img-upload__overlay');
-const imgZoom = document.querySelector('.scale__control--bigger');
 const imgValue = document.querySelector('.scale__control--value');
-const upClose = document.querySelector('#upload-cancel');
-const upFile = document.querySelector('#upload-file');
-const body = document.querySelector('body');
-
+const imgPreview = document.querySelector('.img-upload__preview > img');
 
 const Scale = {
   MAX: 100,
@@ -16,52 +7,30 @@ const Scale = {
   STEP: 25,
 };
 
-imgZoom.addEventListener('click', () => {
-  let scale = parseInt(imgValue.value, 10) + Scale.STEP;
-
-  if (scale >= Scale.MAX) {
-    scale = Scale.MAX;
+const onScaleButtonClick = (evt) => {
+  const scaleInput = Number.parseInt(imgValue.value, 10);
+  let scaleCount;
+  const buttonScale = evt.target;
+  if (buttonScale.matches('.scale__control--bigger') && scaleInput < Scale.MAX) {
+    scaleCount =  scaleInput + Scale.STEP;
+    imgValue.value = `${scaleCount}%`;
   }
 
-  imgValue.value = `${scale }%`;
-  scale = scale / 100;
-  imgValue.style.transform = `scale(${ scale })`;
-});
-
-imgReduction.addEventListener('click', () => {
-  let scale = parseInt(imgValue.value, 10) - Scale.STEP;
-
-  if (scale >= Scale.MIN) {
-    scale = Scale.MIN;
+  if (buttonScale.matches('.scale__control--smaller') && scaleInput > Scale.MIN) {
+    scaleCount = scaleInput - Scale.STEP;
+    imgValue.value = `${scaleCount}%`;
   }
 
-  imgValue.value = `${scale }%`;
-  scale = scale / 100;
-  imgValue.style.transform = `scale(${ scale })`;
-});
+  if (scaleCount >= Scale.MAX) {
+    scaleCount = Scale.MAX;
+    imgValue.value = `${scaleCount}%`;
+  }
 
-
-//Обработчики на закрытие окна\\
-upFile.addEventListener('change',  () => {
-  body.classList.add('modal-open');
-  uploadOverlay.classList.remove('hidden');
-  defaultSet();
-});
-
-const close  = () => {
-  upFile.value = '';
-  body.classList.remove('modal-open');
-  uploadOverlay.classList.add('hidden');
-  reset();
+  if (scaleCount <= Scale.MIN) {
+    scaleCount = Scale.MIN;
+    imgValue.value = `${scaleCount}%`;
+  }
+  imgPreview.style.transform = `scale(${scaleCount / 100})`;
 };
 
-upClose.addEventListener('click',  () => {
-  close();
-});
-
-document.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape') {
-    evt.preventDefault();
-    close();
-  }
-});
+export {onScaleButtonClick};
