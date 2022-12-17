@@ -1,8 +1,12 @@
-import {renderPhotos} from './pic.js';
+import {renderPhotos, postImg} from './pic.js';
+import {closeUp} from './upload.js';
+import {submitForm} from './success-upload.js';
 import './valid.js';
-import './effects.js';
-import './scale.js';
+import {initEffects} from './effects.js';
 
 // eslint-disable-next-line no-console
 console.log('ssssss');
-renderPhotos();
+renderPhotos(postImg);
+initEffects();
+submitForm(closeUp);
+
